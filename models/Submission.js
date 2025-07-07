@@ -2,16 +2,21 @@ import { pool } from "../config/db.js";
 
 const SubmissionModel = {
   // Create a new submission
-async create({ assignment_id, user_id, submission_url, attachment_id = null }) {
-  const { rows } = await pool.query(
-    `INSERT INTO submissions 
-     (assignment_id, user_id, submission_url, attachment_id) 
-     VALUES ($1, $2, $3, $4)
-     RETURNING *`,
-    [assignment_id, user_id, submission_url, attachment_id]
-  );
-  return rows[0];
-},
+  async create({ assignment_id, user_id, submission_url }) {
+    try {
+      const { rows } = await pool.query(
+        `INSERT INTO submissions 
+         (assignment_id, user_id, submission_url) 
+         VALUES ($1, $2, $3)
+         RETURNING *`,
+        [assignment_id, user_id, submission_url]
+      );
+      return rows[0];
+    } catch (error) {
+      console.error("Error creating submission:", error);
+      throw error;
+    }
+  },
 
   // Find a submission by its ID, including student and assignment info
   async findById(id) {
