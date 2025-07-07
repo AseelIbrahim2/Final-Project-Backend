@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 // Course creation validation
+// تعديل schema لإنشاء الكورس
 export const courseSchema = Joi.object({
   title: Joi.string().min(5).max(255).required().messages({
     "string.empty": "Title is required",
@@ -19,13 +20,10 @@ export const courseSchema = Joi.object({
     "number.base": "Category ID must be a number",
     "number.min": "Category ID must be at least 1",
   }),
-  status: Joi.string()
-    .valid("pending", "approved", "rejected")
-    .required()
-    .messages({
-      "any.only": "Status must be one of: pending, approved, rejected",
-      "string.empty": "Status is required",
-    }),
+  duration: Joi.number().integer().min(1).required().messages({
+    "number.base": "Duration must be a number",
+    "number.min": "Duration must be at least 1 minute",
+  })
 });
 
 export const courseUpdateSchema = Joi.object({
@@ -52,3 +50,4 @@ export const courseUpdateSchema = Joi.object({
       "string.empty": "Status is required",
     }),
 }).min(1); // At least one field required for update
+

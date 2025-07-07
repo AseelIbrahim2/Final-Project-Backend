@@ -21,6 +21,7 @@ import enrollmentRoutes from "./routes/enrollmentRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import attachmentRoutes from "./routes/attachmentRoutes.js";
+
 dotenv.config();
 
 // Import configurations
@@ -94,6 +95,7 @@ app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/quizzes", quizRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/attachments", attachmentRoutes);
+app.use("/api/modules", attachmentRoutes);
 
 app.get("/", (req, res) => {
   res.json(

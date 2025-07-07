@@ -1,6 +1,7 @@
 import { Router } from "express";
 import LessonController from "../controllers/lessonController.js";
 import { authenticate, authorize } from "../middlewares/authMiddleware.js";
+import upload from "../middlewares/upload.js";
 
 const router = Router();
 
@@ -11,7 +12,12 @@ router.get("/module/:moduleId", LessonController.getLessonsByModule);
 router.use(authenticate);
 
 // Instructor/Admin routes
-router.post("/", authorize(["instructor"]), LessonController.createLesson);
+router.post(
+  "/",
+  authorize(["instructor"]),
+  upload.single("file"), 
+  LessonController.createLesson
+);
 router.get("/:id", LessonController.getLesson);
 router.put("/:id", authorize(["instructor"]), LessonController.updateLesson);
 router.delete(
